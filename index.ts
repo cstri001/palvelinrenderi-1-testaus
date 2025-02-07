@@ -17,7 +17,7 @@ app.get('/', async (req : express.Request, res : express.Response) => {
 app.get('/hae', async (req : express.Request, res : express.Response) => {
   // This req.query.enter-text-here is the part in the URL that's like .../hae?hakusana=Mikkeli
   // Force-casting this as string is required to prevent errors here
-  console.log(req.query.hakusana)
+  console.log(req.query)
   let hakusana : string = req.query.hakusana as string;
   let kunnat = await prisma.kunta.findMany({
     where: {

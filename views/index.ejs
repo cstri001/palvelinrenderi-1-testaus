@@ -9,10 +9,24 @@
   <title>Palvelinrenderöinti: Kuntien asukastilastot</title>
 </head>
 <body>
+  <% 
+    let kuntiaYht = 0;
+    let asukkaat = 0;
+    let naisetYht = 0;
+    let asukkaatKeskim = asukkaat / kuntiaYht || 0;
+    let naistenOsuus = `${naisetYht / asukkaat * 100}%`;
+  %>
+
   <h1>Haetut kuntatiedot</h1>
   <form method="GET" action="/hae">
-    <input class="mdl-textfield__input" type="text" name="hakusana" placeholder="Kirjoita hakuehto">
-    <button type="submit">
+    <div class="mdl-textfield mdl-js-textfield">
+      <%# The "name" attribute of input field is what functions as the "key" for the query in the
+      URL when making a GET request. This way req.query.hakusana includes the value of the
+      input field as the value %>
+      <input class="mdl-textfield__input" type="text" name="hakusana" id="hakusana" placeholder="Kirjoita hakuehto">
+      <label for="hakusana" class="mdl-textfield__label">Kunnan nimi</label>
+    </div>
+    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">
       Rajaa kuntia  
     </button>
   </form>
@@ -36,6 +50,11 @@
     <tbody>
       <%
         kunnat.forEach((kunta) => { %>
+          <% 
+            kuntiaYht += 1;
+            asukkaat += kunta.asukkaatYhteensa;
+            naisetYht += kunta.asukkaatNaiset;
+          %>
           <tr>
             <td class="mdl-data-table__cell--non-numeric">
               <%= kunta.kunta %>
@@ -54,5 +73,8 @@
       %>
     </tbody>
   </table>
+  <p>
+    Kuntia yhteensä: <%= kuntiaYht %>
+  </p>
 </body>
 </html>
