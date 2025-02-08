@@ -13,8 +13,6 @@
     let kuntiaYht = 0;
     let asukkaat = 0;
     let naisetYht = 0;
-    let asukkaatKeskim = asukkaat / kuntiaYht || 0;
-    let naistenOsuus = `${naisetYht / asukkaat * 100}%`;
   %>
 
   <h1>Haetut kuntatiedot</h1>
@@ -33,7 +31,7 @@
   <table class="mdl-data-table mdl-js-data-table">
     <thead>
       <tr>
-        <th class="mdl-data-table__cell--non-numeric">
+        <th class="mdl-data-table__cell--non-numeric mdl-data-table__header--sorted-descending">
           Kunnan nimi
         </th>
         <th>
@@ -60,21 +58,27 @@
               <%= kunta.kunta %>
             </td>
             <td>
-              <%= kunta.asukkaatYhteensa %>
+              <%= kunta.asukkaatYhteensa.toLocaleString('fi-FI') %>
             </td>
             <td>
-              <%= kunta.asukkaatMiehet %>
+              <%= kunta.asukkaatMiehet.toLocaleString('fi-FI') %>
             </td>
             <td>
-              <%= kunta.asukkaatNaiset %>
+              <%= kunta.asukkaatNaiset.toLocaleString('fi-FI') %>
             </td>
           </tr>
         <% })
       %>
     </tbody>
+    <% 
+      let asukkaatKeskim = kuntiaYht > 0 ? Math.round(asukkaat / kuntiaYht) : 0;
+      let naistenOsuus = kuntiaYht > 0 ? Math.round(naisetYht / asukkaat * 100) : 0;
+    %>
   </table>
   <p>
     Kuntia yhteensä: <%= kuntiaYht %>
+    Naisten osuus väestöstä: <%= naistenOsuus %>%
+    Keskimääräinen asukasluku: <%= asukkaatKeskim.toLocaleString('fi-FI') %>
   </p>
 </body>
 </html>
