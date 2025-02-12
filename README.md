@@ -1,3 +1,5 @@
-Palvelinrenderöinnin ensitestausta ja kokeilua. Sovellus renderöi Express-palvelimella sivuston, joka hakee tietokannasta dataa Suomen kunnista, ja tulostaa tietokantahaun tulokset taulukkoon. Taulukon tietoja voi filtteröidä hakusanan avulla. 
+# Mitä ohjelma tekee?
+Palvelinrenderöinnin ensitestausta ja kokeilua, Sovellusohjelmointi 3 -kurssin ensimmäinen palautustehtävä. Sovellus renderöi Express-palvelimella sivuston, joka hakee tietokannasta dataa Suomen kunnista, ja tulostaa tietokantahaun tulokset taulukkoon. Taulukon tietoja voi filtteröidä hakusanan avulla. Taulukon tiedot voi järjestää nousevaan ja laskevaan järjestykseen klikkaamalla sarakkeen otsikkoa. Oletuksena tiedot on järjestetty laskevaan aakkosjärjestykseen kunnan nimen mukaan.
 
-Sovelluksessa käytetään PrismaORM ja SQLite tietokantatietojen tallentamiseen ja hallinnointiin.
+## Käytetyt teknologiat
+Sovelluksessa käytetään PrismaORM ja SQLite tietokantatietojen tallentamiseen ja hallinnointiin. Muutoin toteutus on tehty Expressillä, TypeScriptillä ja EJS:llä.

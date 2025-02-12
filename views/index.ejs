@@ -28,20 +28,46 @@
       Rajaa kuntia  
     </button>
   </form>
+  
+  <%# The arrows for indicating the current sorting order are decided with two value evaluations - the order for descending alphabets is different from descending numbers, so that's why "descending <-> ascending" is switched around for the city names %>
   <table class="mdl-data-table mdl-js-data-table">
     <thead>
       <tr>
-        <th class="mdl-data-table__cell--non-numeric mdl-data-table__header--sorted-descending">
-          Kunnan nimi
+        <th class=
+          <%= sortField === 'kunta' && sortOrder === 'asc' ? 'mdl-data-table__header--sorted-descending' : '' %>
+          <%= sortField === 'kunta' && sortOrder === 'desc' ? 'mdl-data-table__header--sorted-ascending' : '' %>
+        >
+          <a href="/hae?hakusana=<%= hakusana %>&sort=kunta&order=<%= sortField === 'kunta' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+            Kunnan nimi
+          </a>
         </th>
-        <th>
-          Asukasmäärä yhteensä
+        <th class=
+          <%= sortField === 'asukkaatYhteensa' && sortOrder === 'desc' ? 'mdl-data-table__header--sorted-descending' : '' %>
+          <%= sortField === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'mdl-data-table__header--sorted-ascending' : '' %>
+        >
+          <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatYhteensa&order=<%= sortField === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+            Asukasmäärä yhteensä
+          </a>
         </th>
-        <th>
-          Miesten asukasmäärä
+        <th class=
+          <%= sortField === 'asukkaatMiehet' && sortOrder === 'desc' ?
+          'mdl-data-table__header--sorted-descending' : '' %>
+          <%= sortField === 'asukkaatMiehet' && sortOrder === 'asc' ?
+          'mdl-data-table__header--sorted-ascending' : '' %>
+        >
+          <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatMiehet&order=<%= sortField === 'asukkaatMiehet' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+            Miesten asukasmäärä
+          </a>
         </th>
-        <th>
-          Naisten asukasmäärä
+        <th class=
+          <%= sortField === 'asukkaatNaiset' && sortOrder === 'desc' ?
+          'mdl-data-table__header--sorted-descending' : '' %>
+          <%= sortField === 'asukkaatNaiset' && sortOrder === 'asc' ?
+          'mdl-data-table__header--sorted-ascending' : '' %>
+        >
+          <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatNaiset&order=<%= sortField === 'asukkaatNaiset' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+            Naisten asukasmäärä
+          </a>
         </th>
       </tr>
     </thead>
@@ -80,5 +106,6 @@
     Naisten osuus väestöstä: <%= naistenOsuus %>%
     Keskimääräinen asukasluku: <%= asukkaatKeskim.toLocaleString('fi-FI') %>
   </p>
+  
 </body>
 </html>
