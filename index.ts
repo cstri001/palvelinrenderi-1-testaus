@@ -27,7 +27,7 @@ app.get('/hae', async (req : express.Request, res : express.Response) => {
   // Define allowed sorting fields (to prevent injection attacks)
   const allowedFields = ["kunta", "asukkaatYhteensa", "asukkaatMiehet", "asukkaatNaiset"];
 
-  // Validate the sorting field
+  // Validate the sorting field. "!" mark tells Typescript that "I will assure you this will have a value, so stop complaining"
   const sortField = allowedFields.includes(sort || "") ? sort! : "kunta";
 
   // Validate the sorting order
