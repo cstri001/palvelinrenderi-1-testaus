@@ -9,103 +9,110 @@
   <title>Palvelinrenderöinti: Kuntien asukastilastot</title>
 </head>
 <body>
-  <% 
-    let kuntiaYht = 0;
-    let asukkaat = 0;
-    let naisetYht = 0;
-  %>
-
-  <h1>Haetut kuntatiedot</h1>
-  <form method="GET" action="/hae">
-    <div class="mdl-textfield mdl-js-textfield">
-      <%# The "name" attribute of input field is what functions as the "key" for the query in the
-      URL when making a GET request. This way req.query.hakusana includes the value of the
-      input field as the value %>
-      <input class="mdl-textfield__input" type="text" name="hakusana" id="hakusana" placeholder="Kirjoita hakuehto">
-      <label for="hakusana" class="mdl-textfield__label">Kunnan nimi</label>
-    </div>
-    <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">
-      Rajaa kuntia  
-    </button>
-  </form>
-  
-  <%# The arrows for indicating the current sorting order are decided with two value evaluations - the order for descending alphabets is different from descending numbers, so that's why "descending <-> ascending" is switched around for the city names %>
-  <table class="mdl-data-table mdl-js-data-table">
-    <thead>
-      <tr>
-        <th class=
-          <%= sortField === 'kunta' && sortOrder === 'asc' ? 'mdl-data-table__header--sorted-descending' : '' %>
-          <%= sortField === 'kunta' && sortOrder === 'desc' ? 'mdl-data-table__header--sorted-ascending' : '' %>
-        >
-          <a href="/hae?hakusana=<%= hakusana %>&sort=kunta&order=<%= sortField === 'kunta' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
-            Kunnan nimi
-          </a>
-        </th>
-        <th class=
-          <%= sortField === 'asukkaatYhteensa' && sortOrder === 'desc' ? 'mdl-data-table__header--sorted-descending' : '' %>
-          <%= sortField === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'mdl-data-table__header--sorted-ascending' : '' %>
-        >
-          <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatYhteensa&order=<%= sortField === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
-            Asukasmäärä yhteensä
-          </a>
-        </th>
-        <th class=
-          <%= sortField === 'asukkaatMiehet' && sortOrder === 'desc' ?
-          'mdl-data-table__header--sorted-descending' : '' %>
-          <%= sortField === 'asukkaatMiehet' && sortOrder === 'asc' ?
-          'mdl-data-table__header--sorted-ascending' : '' %>
-        >
-          <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatMiehet&order=<%= sortField === 'asukkaatMiehet' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
-            Miesten asukasmäärä
-          </a>
-        </th>
-        <th class=
-          <%= sortField === 'asukkaatNaiset' && sortOrder === 'desc' ?
-          'mdl-data-table__header--sorted-descending' : '' %>
-          <%= sortField === 'asukkaatNaiset' && sortOrder === 'asc' ?
-          'mdl-data-table__header--sorted-ascending' : '' %>
-        >
-          <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatNaiset&order=<%= sortField === 'asukkaatNaiset' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
-            Naisten asukasmäärä
-          </a>
-        </th>
-      </tr>
-    </thead>
-    <tbody>
-      <%
-        kunnat.forEach((kunta) => { %>
-          <% 
-            kuntiaYht += 1;
-            asukkaat += kunta.asukkaatYhteensa;
-            naisetYht += kunta.asukkaatNaiset;
-          %>
-          <tr>
-            <td class="mdl-data-table__cell--non-numeric">
-              <%= kunta.kunta %>
-            </td>
-            <td>
-              <%= kunta.asukkaatYhteensa.toLocaleString('fi-FI') %>
-            </td>
-            <td>
-              <%= kunta.asukkaatMiehet.toLocaleString('fi-FI') %>
-            </td>
-            <td>
-              <%= kunta.asukkaatNaiset.toLocaleString('fi-FI') %>
-            </td>
-          </tr>
-        <% })
-      %>
-    </tbody>
+  <div id="container" style="margin: 20px">
     <% 
-      let asukkaatKeskim = kuntiaYht > 0 ? Math.round(asukkaat / kuntiaYht) : 0;
-      let naistenOsuus = kuntiaYht > 0 ? Math.round(naisetYht / asukkaat * 100) : 0;
+      let kuntiaYht = 0;
+      let asukkaat = 0;
+      let naisetYht = 0;
     %>
-  </table>
-  <p>
-    Kuntia yhteensä: <%= kuntiaYht %>
-    Naisten osuus väestöstä: <%= naistenOsuus %>%
-    Keskimääräinen asukasluku: <%= asukkaatKeskim.toLocaleString('fi-FI') %>
-  </p>
+
+    <h1>Haetut kuntatiedot</h1>
+    <form method="GET" action="/hae">
+      <div class="mdl-textfield mdl-js-textfield">
+        <%# The "name" attribute of input field is what functions as the "key" for the query in the
+        URL when making a GET request. This way req.query.hakusana includes the value of the
+        input field as the value %>
+        <input class="mdl-textfield__input" type="text" name="hakusana" id="hakusana" placeholder="Kirjoita hakuehto">
+        <label for="hakusana" class="mdl-textfield__label">Kunnan nimi</label>
+      </div>
+      <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--primary">
+        Rajaa kuntia  
+      </button>
+      <form method="GET" action="/hae">
+        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--secondary">Nollaa hakuehdot</button>
+      </form>
+    </form>
+    
+    <%# The arrows for indicating the current sorting order are decided with two value evaluations - the order for descending alphabets is different from descending numbers, so that's why "descending <-> ascending" is switched around for the city names %>
+    <table class="mdl-data-table mdl-js-data-table">
+      <thead>
+        <tr>
+          <th class=
+            <%= sortField === 'kunta' && sortOrder === 'asc' ? 'mdl-data-table__header--sorted-descending' : '' %>
+            <%= sortField === 'kunta' && sortOrder === 'desc' ? 'mdl-data-table__header--sorted-ascending' : '' %>
+          >
+            <a href="/hae?hakusana=<%= hakusana %>&sort=kunta&order=<%= sortField === 'kunta' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+              Kunnan nimi
+            </a>
+          </th>
+          <th class=
+            <%= sortField === 'asukkaatYhteensa' && sortOrder === 'desc' ? 'mdl-data-table__header--sorted-descending' : '' %>
+            <%= sortField === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'mdl-data-table__header--sorted-ascending' : '' %>
+          >
+            <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatYhteensa&order=<%= sortField === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+              Asukasmäärä yhteensä
+            </a>
+          </th>
+          <th class=
+            <%= sortField === 'asukkaatMiehet' && sortOrder === 'desc' ?
+            'mdl-data-table__header--sorted-descending' : '' %>
+            <%= sortField === 'asukkaatMiehet' && sortOrder === 'asc' ?
+            'mdl-data-table__header--sorted-ascending' : '' %>
+          >
+            <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatMiehet&order=<%= sortField === 'asukkaatMiehet' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+              Miesten asukasmäärä
+            </a>
+          </th>
+          <th class=
+            <%= sortField === 'asukkaatNaiset' && sortOrder === 'desc' ?
+            'mdl-data-table__header--sorted-descending' : '' %>
+            <%= sortField === 'asukkaatNaiset' && sortOrder === 'asc' ?
+            'mdl-data-table__header--sorted-ascending' : '' %>
+          >
+            <a href="/hae?hakusana=<%= hakusana %>&sort=asukkaatNaiset&order=<%= sortField === 'asukkaatNaiset' && sortOrder === 'asc' ? 'desc' : 'asc' %>">
+              Naisten asukasmäärä
+            </a>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <%
+          kunnat.forEach((kunta) => { %>
+            <% 
+              kuntiaYht += 1;
+              asukkaat += kunta.asukkaatYhteensa;
+              naisetYht += kunta.asukkaatNaiset;
+            %>
+            <tr>
+              <td class="mdl-data-table__cell--non-numeric">
+                <%= kunta.kunta %>
+              </td>
+              <td>
+                <%= kunta.asukkaatYhteensa.toLocaleString('fi-FI') %>
+              </td>
+              <td>
+                <%= kunta.asukkaatMiehet.toLocaleString('fi-FI') %>
+              </td>
+              <td>
+                <%= kunta.asukkaatNaiset.toLocaleString('fi-FI') %>
+              </td>
+            </tr>
+          <% })
+        %>
+      </tbody>
+      <% 
+        let asukkaatKeskim = kuntiaYht > 0 ? Math.round(asukkaat / kuntiaYht) : 0;
+        let naistenOsuus = kuntiaYht > 0 ? Math.round(naisetYht / asukkaat * 100) : 0;
+      %>
+    </table>
+    <p>
+      Kuntia yhteensä: <%= kuntiaYht %>
+      Naisten osuus väestöstä: <%= naistenOsuus %>%
+      Keskimääräinen asukasluku: <%= asukkaatKeskim.toLocaleString('fi-FI') %>
+    </p>
+    
+
+  </div>
   
 </body>
 </html>
